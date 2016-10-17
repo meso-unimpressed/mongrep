@@ -41,6 +41,21 @@ module RepositoryPattern
     # TODO: Clean this up
     # @!classmethods
     module ClassMethods
+      # Returns a new model that includes just the provided subset of fields
+      # from the original model
+      # @overload partial(*field_names)
+      #   @param field_names [Array(Symbol)] a list of fields to include in the
+      #     resulting model
+      # @overload partial(*field_names, nested_fields)
+      #   @param field_names [Array(Symbol)] a list of fields to include in the
+      #     resulting model
+      #   @param nested_fields [Hash(Symbol => Array(Symbol, Hash))]
+      #     nested fields to include in the resulting model
+      # @return [Model] the generated model class
+      # @example
+      #   MyModel.partial(:foo, :bar)
+      # @example With nested fields
+      #   MyModel.partial(:foo, :bar, nested: [:foo, { deep: [:bar] }])
       def partial(*fields)
         class_name = "#{name}::Partial[#{fields.map(&:inspect).join(', ')}]"
         attributes = partial_attributes(*fields)
