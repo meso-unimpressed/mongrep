@@ -1,0 +1,22 @@
+/.bundle/
+/.yardoc
+/Gemfile.lock
+/_yardoc/
+/coverage/*
+!/coverage/.last_run.json
+/pkg/
+/spec/reports/
+/tmp/
+/vendor/bundle/
+
+# for example coverage
+tmp
+
+# exuberant ctags
+tags
+
+# yardoc
+.yardoc/
+doc/yardoc
+
+log
