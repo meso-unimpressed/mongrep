@@ -14,6 +14,7 @@ task default: :test
 task test: [:spec, :rubocop]
 
 RuboCop::RakeTask.new
+YARD::Rake::YardocTask.new
 
 namespace :doc do
   desc 'alias for yard task'
