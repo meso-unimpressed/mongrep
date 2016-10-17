@@ -40,7 +40,7 @@ module RepositoryPattern
     # @example
     #   Shop::ShoppingCarts.model_class #=> Shop::Models::ShoppingCart
     def self.model_class
-      Models.const_get(name.demodulize.singularize)
+      RepositoryPattern.models_namespace.const_get(name.demodulize.singularize)
     end
 
     # Finds documents matching the given query

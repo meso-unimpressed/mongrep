@@ -30,7 +30,10 @@ describe Repository do
 
   let(:repository_instance) { repository.new(database) }
 
-  before { stub_const('Models::Test', model) }
+  before do
+    stub_const('Models::Test', model)
+    RepositoryPattern.models_namespace Models
+  end
 
   describe '.collection_name' do
     it 'derives it from its class name' do
