@@ -33,4 +33,5 @@ prompt that will allow you to experiment.
 To install this gem onto your local machine, run `bundle exec rake install`. To
 release a new version, update the version number in `version.rb`, and then run
 `bundle exec rake release`, which will create a git tag for the version and push
-git commits and tags.
+git commits and tags. This will raise an exception when trying to push the gem,
+which is expected and normal.
