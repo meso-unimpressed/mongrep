@@ -21,7 +21,10 @@ describe Repository do
     end
   end
 
-  before { stub_const('Models::Test', model) }
+  before do
+    stub_const('Models::Test', model)
+    RepositoryPattern.models_namespace Models
+  end
 
   let(:repository_instance) { repository.new(mongo_client) }
   let(:collection) { repository_instance.collection }
