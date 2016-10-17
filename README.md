@@ -21,7 +21,7 @@ And then execute:
 
 ## Documentation
 
-Documentation for the gem is available [here](https://eb-docs.meso.net/repository_pattern).
+Documentation for the gem is available [here](https://eb-doc.meso.net/repository_pattern).
 Credentials for the docs are found in the shared secrets.
 
 ## Development
