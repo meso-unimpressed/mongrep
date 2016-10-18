@@ -35,22 +35,22 @@ describe Repository do
     RepositoryPattern.models_namespace Models
   end
 
-  describe '.collection_name' do
-    it 'derives it from its class name' do
-      expect(repository.collection_name).to eq('tests')
-    end
-  end
-
-  describe '.model_class' do
-    it 'returns the expected class' do
-      expect(repository.model_class).to eq(Models::Test)
-    end
-  end
-
   describe '.new' do
     it 'initializes a collection with the correct collection name' do
       repository.new(database)
       expect(database).to have_received(:[]).with('tests')
+    end
+  end
+
+  describe '#collection_name' do
+    it 'derives it from its class name' do
+      expect(repository_instance.collection_name).to eq('tests')
+    end
+  end
+
+  describe '#model_class' do
+    it 'returns the expected class' do
+      expect(repository_instance.model_class).to eq(Models::Test)
     end
   end
 
