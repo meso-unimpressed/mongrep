@@ -24,23 +24,26 @@ module RepositoryPattern
 
     # @param mongo_client [Mongo::Client] The mongodb client to use
     def initialize(mongo_client)
-      @collection = mongo_client[self.class.collection_name]
+      @collection = mongo_client[collection_name]
     end
 
     # Derives the collection name from the class name
     # @return [String] The underscored collection name
     # @example
-    #   Shop::ShoppingCarts.collection_name #=> 'shopping_carts'
-    def self.collection_name
-      name.demodulize.underscore
+    #   repository = Shop::ShoppingCarts.new(mongo_client)
+    #   repository.collection_name #=> 'shopping_carts'
+    def collection_name
+      self.class.name.demodulize.underscore
     end
 
     # Derives the model class from the class name, requires and returns it
     # @return [Model.class] The model class for this repository
     # @example
-    #   Shop::ShoppingCarts.model_class #=> Shop::Models::ShoppingCart
-    def self.model_class
-      RepositoryPattern.models_namespace.const_get(name.demodulize.singularize)
+    #   repository = Shop::ShoppingCarts.new(mongo_client)
+    #   repository.model_class #=> Shop::Models::ShoppingCart
+    def model_class
+      model_name = self.class.name.demodulize.singularize
+      RepositoryPattern.models_namespace.const_get(model_name)
     end
 
     # Finds documents matching the given query
@@ -153,10 +156,7 @@ module RepositoryPattern
 
     def execute_query(query_object)
       check_query_type!(query_object)
-      QueryResult.new(
-        collection.find(query_object.to_h),
-        self.class.model_class
-      )
+      QueryResult.new(collection.find(query_object.to_h), model_class)
     end
 
     def check_persistence!(model)
