@@ -49,11 +49,19 @@ module RepositoryPattern
     # Finds documents matching the given query
     # @overload find(query)
     #   @param query [Hash, Query] The mongodb query to perform
+    # @overload find(query, options)
+    #   @param query [Hash, Query] The mongodb query to perform
+    #   @param options [Hash] Options to pass to the query
     # @overload find
     #   @yieldparam query [Query] A new query
     #   @yieldreturn [Query] The query to be used
     # @overload find(query)
     #   @param query [Hash, Query] The initial query
+    #   @yieldparam query [Query] The query object
+    #   @yieldreturn [Query] The final query to be used
+    # @overload find(query, options)
+    #   @param query [Hash, Query] The initial query
+    #   @param options [Hash] Options to pass to the query
     #   @yieldparam query [Query] The query object
     #   @yieldreturn [Query] The final query to be used
     # @return [QueryResult<Model>] An enumerable query result
@@ -66,17 +74,22 @@ module RepositoryPattern
     #   result = repository.find do |query|
     #     query.where(name: 'test 1').or(name: 'test 2')
     #   end
+    # @example With query hash and options
+    #   result = repository.find({ name: 'test' }, limit: 1)
     # @see Query
     # @see QueryResult
-    def find(query = {})
+    def find(query = {}, options = {})
       query_object = query.is_a?(Hash) ? Query.new(query) : query
       query_object = yield(query_object) if block_given?
-      execute_query(query_object)
+      execute_query(query_object, options)
     end
 
     # Finds a single document matching the given query
     # @overload find_one(query)
     #   @param query [Hash, Query] The mongodb query to perform
+    # @overload find_one(query, options)
+    #   @param query [Hash, Query] The mongodb query to perform
+    #   @param options [Hash] Options to pass to the query
     # @overload find_one
     #   @yieldparam query [Query] A new query
     #   @yieldreturn [Query] The query to be used
@@ -84,12 +97,17 @@ module RepositoryPattern
     #   @param query [Hash, Query] The initial query
     #   @yieldparam query [Query] The query object
     #   @yieldreturn [Query] The final query to be used
+    # @overload find_one(query, options)
+    #   @param query [Hash, Query] The initial query
+    #   @param options [Hash] Options to pass to the query
+    #   @yieldparam query [Query] The query object
+    #   @yieldreturn [Query] The final query to be used
     # @raise [DocumentNotFoundError] if no matching document could be found
     # @return [Model] The single model instance representing the document
     #   matching the query
     # TODO: Pass some context to DocumentNotFoundError
-    def find_one(query = nil, &block)
-      find(query, &block).first || raise(DocumentNotFoundError)
+    def find_one(query = {}, options = {}, &block)
+      find(query, options, &block).first || raise(DocumentNotFoundError)
     end
 
     # Inserts a document into the database
@@ -163,9 +181,9 @@ module RepositoryPattern
       { _id: model._id }
     end
 
-    def execute_query(query_object)
+    def execute_query(query_object, options)
       check_query_type!(query_object)
-      QueryResult.new(collection.find(query_object.to_h), model_class)
+      QueryResult.new(collection.find(query_object.to_h, options), model_class)
     end
 
     def check_persistence!(model)
