@@ -100,6 +100,11 @@ describe Repository do
     it 'returns a query result' do
       expect(repository_instance.find(test: 1)).to be_a(QueryResult)
     end
+
+    it 'allows passing options to the query' do
+      repository_instance.find({ test: 1 }, limit: 1)
+      expect(collection).to have_received(:find).with({ test: 1 }, limit: 1)
+    end
   end
 
   describe '#find_one' do
