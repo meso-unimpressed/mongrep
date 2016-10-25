@@ -105,8 +105,8 @@ module RepositoryPattern
     # @raise [DocumentNotFoundError] if no matching document could be found
     # @return [Model] The single model instance representing the document
     #   matching the query
-    # TODO: Pass some context to DocumentNotFoundError
     def find_one(query = {}, options = {}, &block)
+      # TODO: Pass some context to DocumentNotFoundError
       find(query, options, &block).first || raise(DocumentNotFoundError)
     end
 
@@ -114,10 +114,10 @@ module RepositoryPattern
     # @param model [Model] The model representing the document to be inserted
     # @return [Mongo::Operation::Write::Insert::Result] The result of the
     #   insert operation
-    # TODO: Pass relevant info to DocumentExistsError message
     def insert(model)
       collection.insert_one(model.to_h)
     rescue Mongo::Error::OperationFailure => error
+      # TODO: Pass relevant info to DocumentExistsError message
       raise(error.duplicate_key_error? ? DocumentExistsError : error)
     end
 
@@ -131,13 +131,13 @@ module RepositoryPattern
     #   (no document found for _id)
     # @return [Mongo::Operation::Write::Update::Result] The result of the
     #   update operation
-    # TODO: Pass some context to DocumentNotFoundError
     def update(model, options = {})
       check_persistence!(model)
       result = collection.update_one(
         id_query(model),
         update_hash(model, options[:fields])
       )
+      # TODO: Pass some context to DocumentNotFoundError
       raise(DocumentNotFoundError) if result.documents.first['n'].zero?
       result
     end
@@ -152,10 +152,10 @@ module RepositoryPattern
     #   (no document found for _id)
     # @return [Mongo::Operation::Write::Delete::Result] The result of the
     #   delete operation
-    # TODO: Pass some context to DocumentNotFoundError
     def delete(model)
       check_persistence!(model)
       result = collection.delete_one(id_query(model))
+      # TODO: Pass some context to DocumentNotFoundError
       raise(DocumentNotFoundError) if result.documents.first['n'].zero?
       result
     end
