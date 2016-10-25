@@ -142,6 +142,15 @@ module RepositoryPattern
       result
     end
 
+    # Get a distinct list of values for the given field over all documents
+    # in the collection.
+    # @param field [Symbol, String] The field or dot notated path to the
+    #   field
+    # @return [Array] An array with the distinct values
+    def distinct(field)
+      collection.distinct(field)
+    end
+
     private
 
     def update_hash(model, fields_to_set = nil)

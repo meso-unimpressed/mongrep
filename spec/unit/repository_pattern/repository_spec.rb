@@ -228,4 +228,13 @@ describe Repository do
       )
     end
   end
+
+  describe '#distinct' do
+    before { allow(collection).to receive(:distinct) }
+
+    it 'delegates to the collection' do
+      repository_instance.distinct(:test)
+      expect(collection).to have_received(:distinct).with(:test)
+    end
+  end
 end

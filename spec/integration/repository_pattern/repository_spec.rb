@@ -135,4 +135,13 @@ describe Repository do
       )
     end
   end
+
+  describe '#distinct' do
+    before { records.each(&collection.method(:insert_one)) }
+
+    it 'returns the distinct values of a given field' do
+      result = repository_instance.distinct(:two)
+      expect(result).to match_array((10..14).to_a)
+    end
+  end
 end
