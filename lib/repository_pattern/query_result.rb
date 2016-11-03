@@ -6,17 +6,24 @@ module RepositoryPattern
 
     # The methods to be delegated to the underlying mongo cursor
     # @api private
-    DELEGATED_METHODS = %i(aggregate limit projection skip sort).freeze
+    DELEGATED_METHODS = %i(limit projection skip sort).freeze
 
     # @api private
-    def initialize(mongo_cursor, model_class)
+    def initialize(collection_view, model_class)
       @model_class = model_class
-      @mongo_cursor = mongo_cursor
+      @collection_view = collection_view
     end
 
     DELEGATED_METHODS.each do |method|
-      define_method(method) do |*args|
-        @mongo_cursor = @mongo_cursor.public_send(method, *args)
+      aggregation_stage = method == :projection ? :project : method
+
+      define_method(method) do |param|
+        if @collection_view.is_a?(Mongo::Collection::View::Aggregation)
+          @collection_view.pipeline << { :"$#{aggregation_stage}" => param }
+        else
+          @collection_view = @collection_view.public_send(method, param)
+        end
+
         self
       end
     end
@@ -28,7 +35,7 @@ module RepositoryPattern
     def each
       return enum_for(:each) unless block_given?
 
-      @mongo_cursor.each do |document|
+      @collection_view.each do |document|
         yield @model_class.new(document)
       end
     end
