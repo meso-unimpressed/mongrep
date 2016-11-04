@@ -8,6 +8,7 @@ module RepositoryPattern
     # @api private
     DELEGATED_METHODS = %i(limit projection skip sort).freeze
 
+    attr_reader :model_class
     # @api private
     def initialize(collection_view, model_class)
       @model_class = model_class
