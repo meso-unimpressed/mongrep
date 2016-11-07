@@ -40,11 +40,10 @@ describe Repository do
       repository.new(database)
       expect(database).to have_received(:[]).with('tests')
     end
-  end
 
-  describe '#collection_name' do
-    it 'derives it from its class name' do
-      expect(repository_instance.collection_name).to eq('tests')
+    it 'allows overriding the collection name' do
+      repository.new(database, 'foobar')
+      expect(database).to have_received(:[]).with('foobar')
     end
   end
 

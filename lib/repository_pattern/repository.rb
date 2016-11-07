@@ -23,17 +23,13 @@ module RepositoryPattern
     attr_reader :collection
 
     # @param mongo_client [Mongo::Client] The mongodb client to use
-    def initialize(mongo_client)
+    # @param collection_name [String] The name of the collection to use
+    #   defaults to the demodulized and underscored class name
+    def initialize(
+      mongo_client,
+      collection_name = self.class.name.demodulize.underscore
+    )
       @collection = mongo_client[collection_name]
-    end
-
-    # Derives the collection name from the class name
-    # @return [String] The underscored collection name
-    # @example
-    #   repository = Shop::ShoppingCarts.new(mongo_client)
-    #   repository.collection_name #=> 'shopping_carts'
-    def collection_name
-      self.class.name.demodulize.underscore
     end
 
     # Derives the model class from the class name, requires and returns it
