@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'spec_helper'
-require 'repository_pattern/mongo_model'
+require 'mongrep/mongo_model'
 
 describe MongoModel do
   subject(:record) { model.new }

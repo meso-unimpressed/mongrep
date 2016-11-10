@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module RepositoryPattern
+module Mongrep
   # A wrapper around mongo cursors
   class QueryResult
     include Enumerable

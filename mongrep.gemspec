@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'repository_pattern/version'
+require 'mongrep/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'repository_pattern'
-  spec.version       = RepositoryPattern::VERSION
+  spec.name          = 'mongrep'
+  spec.version       = Mongrep::VERSION
   spec.authors       = ['Joakim Reinert']
   spec.email         = ['reinert@meso.net']
 
-  spec.summary       = 'Provides base clases for the repository pattern'
+  spec.summary       =
+    'A library for utilizing the repository pattern for MongoDB'
   spec.description   =
-    'Contains base classes for Models, Repositories and Queries to be used' \
-    'in any project using MongoDB'
-  spec.homepage      = 'http://none.invalid'
-
-  spec.metadata['allowed_push_host'] = 'http://none.invalid'
+    'Mongrep provides base classes and modules for implementing persistance ' \
+    'layers for MongoDB using the repository pattern'
+  spec.homepage      = 'https://github.com/meso-unimpressed/mongrep'
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
+
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']

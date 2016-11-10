@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'repository_pattern/repository'
-require 'repository_pattern/mongo_model'
+require 'mongrep/repository'
+require 'mongrep/mongo_model'
 
 describe Repository do
   include_context 'db specs'
@@ -23,7 +23,7 @@ describe Repository do
 
   before do
     stub_const('Models::Test', model)
-    RepositoryPattern.models_namespace Models
+    Mongrep.models_namespace Models
   end
 
   let(:repository_instance) { repository.new(mongo_client) }

@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 require 'active_support/core_ext/hash/slice'
-require 'repository_pattern/model'
+require 'mongrep/model'
 
 describe Model do
   let(:sub_model_class) do

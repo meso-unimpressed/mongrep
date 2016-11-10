@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'repository_pattern/repository'
-module RepositoryPattern
+require 'mongrep/repository'
+module Mongrep
   # A mixin providing overwrites for write methods in read-only repositories
   module ReadOnlyRepository
     # An error signaling that the write operation isn't possible

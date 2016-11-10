@@ -1,8 +1,8 @@
 # frozen_string_literal: true
-require 'repository_pattern/version'
+require 'mongrep/version'
 
 # The top level namespace
-module RepositoryPattern
+module Mongrep
   # An error signaling an error with the configuration of the gem
   class ConfigurationError < RuntimeError; end
 

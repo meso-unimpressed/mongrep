@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'active_support/core_ext/hash/indifferent_access'
 
-module RepositoryPattern
+module Mongrep
   # Top level namespace for all core extensions
   module CoreExt
     # Core extensions to Hash class

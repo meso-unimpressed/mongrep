@@ -2,10 +2,10 @@
 require 'spec_helper'
 require 'mongo'
 
-require 'repository_pattern/repository'
-require 'repository_pattern/mongo_model'
-require 'repository_pattern/query'
-require 'repository_pattern/query_result'
+require 'mongrep/repository'
+require 'mongrep/mongo_model'
+require 'mongrep/query'
+require 'mongrep/query_result'
 
 describe Repository do
   let(:collection) do
@@ -32,7 +32,7 @@ describe Repository do
 
   before do
     stub_const('Models::Test', model)
-    RepositoryPattern.models_namespace Models
+    Mongrep.models_namespace Models
   end
 
   describe '.new' do

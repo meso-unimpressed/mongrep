@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'mongo'
 
-module RepositoryPattern
+module Mongrep
   module CoreExt
     # Core extensions to Mongo
     module Mongo

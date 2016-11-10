@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'spec_helper'
 require 'mongo'
-require 'repository_pattern/query_result'
+require 'mongrep/query_result'
 
 describe QueryResult do
   let(:collection_view) { instance_double(Mongo::Collection::View) }
