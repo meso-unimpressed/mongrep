@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module RepositoryPattern
+module Mongrep
   # A mongodb query object
   class Query
     # @param query_hash [Hash] A hash representing the query

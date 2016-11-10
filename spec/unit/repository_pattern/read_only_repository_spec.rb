@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require 'spec_helper'
 
-require 'repository_pattern/repository'
-require 'repository_pattern/read_only_repository'
+require 'mongrep/repository'
+require 'mongrep/read_only_repository'
 
 describe ReadOnlyRepository do
   let(:repository_instance) { Class.new { include ReadOnlyRepository }.new }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'spec_helper'
-require 'repository_pattern/query'
+require 'mongrep/query'
 
 describe Query do
   context '.new' do

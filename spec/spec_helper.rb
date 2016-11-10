@@ -6,13 +6,13 @@ require 'logger'
 require 'mongo'
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'repository_pattern'
+require 'mongrep'
 
 module DBSpecs
   def mongo_client
     @mongo_client ||= Mongo::Client.new(
       [ENV['MONGO_HOST'] || 'localhost'],
-      database: 'repository_pattern_test',
+      database: 'mongrep_test',
       logger: Logger.new(STDOUT).tap { |logger| logger.level = Logger::WARN }
     )
   end
@@ -30,4 +30,4 @@ RSpec.shared_context 'db specs' do
   end
 end
 
-include RepositoryPattern
+include Mongrep

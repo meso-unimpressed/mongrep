@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'virtus'
 
-module RepositoryPattern
+module Mongrep
   # A mixin providing Virtus.model functionality and a recursive to_h method
   module Model
     class << self

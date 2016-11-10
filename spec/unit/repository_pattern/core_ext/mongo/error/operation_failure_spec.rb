@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'spec_helper'
-require 'repository_pattern/core_ext/mongo/error/operation_failure'
+require 'mongrep/core_ext/mongo/error/operation_failure'
 
 describe Mongo::Error::OperationFailure do
   context '#operation_failure?' do

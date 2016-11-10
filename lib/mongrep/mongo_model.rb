@@ -2,9 +2,9 @@
 require 'abstractize'
 require 'active_support/core_ext/hash/indifferent_access'
 
-require 'repository_pattern/model'
+require 'mongrep/model'
 
-module RepositoryPattern
+module Mongrep
   # @abstract The base class for all models
   class MongoModel
     include Abstractize

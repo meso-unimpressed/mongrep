@@ -2,13 +2,13 @@
 require 'active_support/inflector'
 require 'active_support/core_ext/hash/except'
 require 'active_support/core_ext/hash/slice'
-require 'repository_pattern/core_ext/hash'
+require 'mongrep/core_ext/hash'
 require 'abstractize'
-require 'repository_pattern/query'
-require 'repository_pattern/query_result'
-require 'repository_pattern/core_ext/mongo/error/operation_failure'
+require 'mongrep/query'
+require 'mongrep/query_result'
+require 'mongrep/core_ext/mongo/error/operation_failure'
 
-module RepositoryPattern
+module Mongrep
   # @abstract The base class for all repositories
   class Repository
     include Abstractize
@@ -39,7 +39,7 @@ module RepositoryPattern
     #   repository.model_class #=> Shop::Models::ShoppingCart
     def model_class
       model_name = self.class.name.demodulize.singularize
-      RepositoryPattern.models_namespace.const_get(model_name)
+      Mongrep.models_namespace.const_get(model_name)
     end
 
     # Finds documents matching the given query

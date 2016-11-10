@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require 'spec_helper'
-require 'repository_pattern/core_ext/hash'
+require 'mongrep/core_ext/hash'
 
 describe Hash do
   context '#slice_with_dot_notation' do
