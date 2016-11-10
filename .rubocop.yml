@@ -4,3 +4,6 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/**/*.rb'
     - '*.gemspec'
+
+RSpec/NestedGroups:
+  MaxNesting: 3
