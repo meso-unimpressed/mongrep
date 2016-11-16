@@ -43,12 +43,13 @@ module Mongrep
     def each
       return enum_for(:each) unless block_given?
 
-      @collection_view.each do |document|
-        yield @model_class.new(document)
+      begin
+        @collection_view.each do |document|
+          yield @model_class.new(document)
+        end
+      ensure
+        @collection_view.close_query
       end
-
-    ensure
-      @collection_view.close_query
     end
   end
 end
