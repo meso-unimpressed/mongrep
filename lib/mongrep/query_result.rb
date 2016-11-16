@@ -44,6 +44,9 @@ module Mongrep
       @collection_view.each do |document|
         yield @model_class.new(document)
       end
+
+    ensure
+      @collection_view.close_query
     end
   end
 end
