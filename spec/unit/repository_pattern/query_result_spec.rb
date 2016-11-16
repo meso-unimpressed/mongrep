@@ -4,7 +4,10 @@ require 'mongo'
 require 'mongrep/query_result'
 
 describe QueryResult do
-  let(:collection_view) { instance_double(Mongo::Collection::View) }
+  let(:collection_view) do
+    instance_double(Mongo::Collection::View, close_query: nil)
+  end
+
   let(:model_class) { Class.new }
   let(:query_result_instance) do
     described_class.new(collection_view, model_class)
@@ -58,6 +61,7 @@ describe QueryResult do
       allow(collection_view).to(
         receive(:each).and_yield(test: 1).and_yield(test: 2)
       )
+      allow(model_class).to receive(:new).with(Hash)
     end
 
     it 'returns a enumerator' do
@@ -65,15 +69,49 @@ describe QueryResult do
     end
 
     it 'wraps results from underlying collection_view with the model class' do
-      allow(model_class).to receive(:new).with(Hash)
       query_result_instance.each.to_a
       expect(model_class).to have_received(:new).with(test: 1)
     end
 
     it 'is lazy' do
-      allow(model_class).to receive(:new).with(Hash)
       query_result_instance.each.first
       expect(model_class).to have_received(:new).once
+    end
+
+    it 'closes the query after iterating' do
+      query_result_instance.each { |_| }
+      expect(collection_view).to have_received(:close_query)
+    end
+
+    it 'closes the query when partially iterating' do
+      query_result_instance.each.first
+      expect(collection_view).to have_received(:close_query)
+    end
+
+    it 'closes the query even if raising during iteration' do
+      begin
+        query_result_instance.each { |_| raise RuntimeError }
+      rescue RuntimeError
+        expect(collection_view).to have_received(:close_query)
+      end
+    end
+  end
+
+  context 'count' do
+    before { allow(collection_view).to receive(:count).and_return(2) }
+
+    it 'is delegated to the collection view' do
+      query_result_instance.count
+      expect(collection_view).to have_received(:count)
+    end
+
+    it 'is returns the collection views result' do
+      expect(query_result_instance.count).to eq(2)
+    end
+
+    it 'closes the query' do
+      query_result_instance.count
+      expect(collection_view).to have_received(:close_query)
     end
   end
 end

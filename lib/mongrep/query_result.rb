@@ -29,6 +29,13 @@ module Mongrep
       end
     end
 
+    # @return [Integer] The amount of documents in this result
+    def count
+      @collection_view.count
+    ensure
+      @collection_view.close_query
+    end
+
     # Iterates over the query result
     # @yieldparam item [Model] A model representing a document from the
     #   query result
@@ -36,8 +43,12 @@ module Mongrep
     def each
       return enum_for(:each) unless block_given?
 
-      @collection_view.each do |document|
-        yield @model_class.new(document)
+      begin
+        @collection_view.each do |document|
+          yield @model_class.new(document)
+        end
+      ensure
+        @collection_view.close_query
       end
     end
   end
