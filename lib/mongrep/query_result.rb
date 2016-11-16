@@ -32,6 +32,8 @@ module Mongrep
     # @return [Integer] The amount of documents in this result
     def count
       @collection_view.count
+    ensure
+      @collection_view.close_query
     end
 
     # Iterates over the query result
