@@ -60,7 +60,16 @@ module Mongrep
       self | self.class.new(query_hash)
     end
 
-    alias and where
+    # Combines self with the given query hash by using the MongoDB $and
+    # operator
+    # @param query_hash [Hash] The query hash to combine with the query
+    # @return [Query] A new Query resulting in the combination of the
+    #   given query hash and the existing one
+    # @example
+    #   query.where(foo: { bar: 'foo' }).and(foo: { foo: 'bar' })
+    def and(query_hash)
+      self.class.new(:$and => [@query_hash, query_hash])
+    end
 
     # @return [Hash] The underlying query hash
     def to_h
