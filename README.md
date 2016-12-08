@@ -17,7 +17,7 @@ And then execute:
 
 ## Documentation
 
-API docs are available at http://rubydoc.info/github/meso-unimpressed/mongrep
+API docs are available at https://rubydocs.info/mongrep
 
 ## Development
 
