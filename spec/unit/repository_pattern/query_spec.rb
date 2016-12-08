@@ -88,4 +88,23 @@ describe Query do
       expect(query.to_h).to eq(foo: 1)
     end
   end
+
+  context '#and' do
+    let(:query) { described_class.new(foo: { bar: 1 }) }
+
+    it 'returns a query' do
+      expect(query.and({})).to be_a(described_class)
+    end
+
+    it 'merges the given query to the query hash' do
+      expect(query.and(foo: { foo: 2 }).to_h).to eq(
+        :$and => [{ foo: { bar: 1 } }, { foo: { foo: 2 } }]
+      )
+    end
+
+    it 'does not modify the query' do
+      _ = query.and(foo: 2)
+      expect(query.to_h).to eq(foo: { bar: 1 })
+    end
+  end
 end
