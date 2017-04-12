@@ -32,14 +32,19 @@ module Mongrep
       @collection = mongo_client[collection_name]
     end
 
-    # Derives the model class from the class name, requires and returns it
-    # @return [Model.class] The model class for this repository
+    # Derives the model class from the class name and instanciates a model of
+    # that class with the given document. This is passed to a QueryResult
+    # which uses it to return model instances. It should be overridden when
+    # implementing polymorphism based on a field in the document.
+    # @return [Model] A model instance
     # @example
     #   repository = Shop::ShoppingCarts.new(mongo_client)
-    #   repository.model_class #=> Shop::Models::ShoppingCart
-    def model_class
+    #   repository.initialize_model(document)
+    #   #=> #<Shop::Models::ShoppingCart:... >
+    def initialize_model(document)
       model_name = self.class.name.demodulize.singularize
-      Mongrep.models_namespace.const_get(model_name)
+      model_class = Mongrep.models_namespace.const_get(model_name)
+      model_class.new(document)
     end
 
     # Finds documents matching the given query
@@ -179,7 +184,10 @@ module Mongrep
 
     def execute_query(query_object, options)
       check_query_type!(query_object)
-      QueryResult.new(collection.find(query_object.to_h, options), model_class)
+      QueryResult.new(
+        collection.find(query_object.to_h, options),
+        &method(:initialize_model)
+      )
     end
 
     def check_persistence!(model)

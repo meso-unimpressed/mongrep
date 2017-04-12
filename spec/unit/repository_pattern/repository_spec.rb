@@ -47,9 +47,17 @@ describe Repository do
     end
   end
 
-  describe '#model_class' do
-    it 'returns the expected class' do
-      expect(repository_instance.model_class).to eq(Models::Test)
+  describe '#initialize_model' do
+    let(:document) { { _id: 1, foo: 'bar' } }
+
+    it 'returns a model of the expected class' do
+      expect(repository_instance.initialize_model(document)).to be_a(model)
+    end
+
+    it 'calls the models initializer with the given document' do
+      allow(model).to receive(:new)
+      repository_instance.initialize_model(document)
+      expect(model).to have_received(:new).with(document)
     end
   end
 

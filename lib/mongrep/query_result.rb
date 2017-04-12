@@ -10,8 +10,8 @@ module Mongrep
 
     attr_reader :model_class
     # @api private
-    def initialize(collection_view, model_class)
-      @model_class = model_class
+    def initialize(collection_view, &initialize_model)
+      @initialize_model = initialize_model
       @collection_view = collection_view
     end
 
@@ -45,7 +45,7 @@ module Mongrep
 
       begin
         @collection_view.each do |document|
-          yield @model_class.new(document)
+          yield @initialize_model.call(document)
         end
       ensure
         @collection_view.close_query

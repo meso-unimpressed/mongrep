@@ -10,7 +10,7 @@ describe QueryResult do
 
   let(:model_class) { Class.new }
   let(:query_result_instance) do
-    described_class.new(collection_view, model_class)
+    described_class.new(collection_view, &model_class.method(:new))
   end
 
   it 'is enumerable' do
