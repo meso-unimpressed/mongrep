@@ -8,7 +8,7 @@ the repository pattern
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'mongrep', '~> 0.2'
+gem 'mongrep', '~> 0.3'
 ```
 
 And then execute:
